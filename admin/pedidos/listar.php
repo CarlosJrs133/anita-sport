@@ -182,6 +182,24 @@ include "../includes/header.php";
         Ver detalle
     </a>
 
+    <!-- SPRINT 6 - MODIFICACIÓN 08
+     Botón para editar el pedido seleccionado.
+-->
+<a href="editar.php?id=<?php echo $pedido["id"]; ?>" class="btn btn-warning btn-sm">
+    Editar
+</a>
+
+<!-- SPRINT 6 - MODIFICACIÓN 10
+     Botón para eliminar el pedido seleccionado.
+     confirm() muestra una alerta antes de borrar.
+-->
+<a 
+    href="eliminar.php?id=<?php echo $pedido["id"]; ?>" 
+    class="btn btn-danger btn-sm"
+    onclick="return confirm('¿Estás seguro de eliminar este pedido?');">
+    Eliminar
+</a>
+
 </td>
 
                                 </tr>
