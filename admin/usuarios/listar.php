@@ -8,31 +8,27 @@ ARCHIVO  : listar.php
 FUNCIÓN:
 Muestra todos los usuarios registrados en el sistema.
 
-HISTORIAL DE MODIFICACIONES:
+HISTORIAL:
 [01/07/2026]
-SPRINT 7 - MODIFICACIÓN 09
-✔ Se creó el listado de usuarios.
-✔ Se agregó la clase "tabla-dinamica" para DataTables.
-✔ Se usa el diseño del panel administrativo.
+SPRINT 8 - MEJORA 01
+✔ Se mejoró la visualización del rol.
+✔ admin se muestra como Administrador.
+✔ editor se muestra como Editor.
+✔ Se mantiene DataTables.
 =========================================================
 */
 
-// Iniciamos sesión
 session_start();
 
-// Protegemos la página
 if (!isset($_SESSION["usuario_id"])) {
     header("Location: ../login.php");
     exit();
 }
 
-// Conectamos con la base de datos
 include "../../config/conexion.php";
 
-// Consultamos usuarios
 $usuarios = $conexion->query("SELECT * FROM usuarios ORDER BY id DESC");
 
-// Header del panel
 include "../includes/header.php";
 ?>
 
@@ -60,10 +56,6 @@ include "../includes/header.php";
 
                 <div class="card-body">
 
-                    <!-- SPRINT 7 - MODIFICACIÓN 09
-                         tabla-dinamica activa buscador,
-                         paginación, ordenamiento y exportación.
-                    -->
                     <table class="table table-bordered table-hover align-middle tabla-dinamica">
 
                         <thead class="table-dark">
@@ -81,23 +73,65 @@ include "../includes/header.php";
                             <?php while ($usuario = $usuarios->fetch_assoc()) { ?>
 
                                 <tr>
+
                                     <td><?php echo $usuario["id"]; ?></td>
+
                                     <td><?php echo $usuario["nombre"]; ?></td>
+
                                     <td><?php echo $usuario["correo"]; ?></td>
-                                    <td><?php echo $usuario["rol"]; ?></td>
 
                                     <td>
+                                        <!-- ===========================================
+                                             SPRINT 8 - MEJORA 01
+                                             Mostramos el rol con texto más claro.
+                                        =========================================== -->
+
+                                        <?php if ($usuario["rol"] == "admin") { ?>
+
+                                            <span class="badge bg-danger">
+                                                Administrador
+                                            </span>
+
+                                        <?php } elseif ($usuario["rol"] == "editor") { ?>
+
+                                            <span class="badge bg-primary">
+                                                Editor
+                                            </span>
+
+                                        <?php } else { ?>
+
+                                            <span class="badge bg-secondary">
+                                                Sin rol
+                                            </span>
+
+                                        <?php } ?>
+                                    </td>
+
+                                    <td>
+
                                         <a href="editar.php?id=<?php echo $usuario["id"]; ?>" class="btn btn-warning btn-sm">
                                             Editar
                                         </a>
 
-                                        <a 
-                                            href="eliminar.php?id=<?php echo $usuario["id"]; ?>" 
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
-                                            Eliminar
-                                        </a>
+                                        <?php if ($usuario["id"] != $_SESSION["usuario_id"]) { ?>
+
+                                            <a 
+                                                href="eliminar.php?id=<?php echo $usuario["id"]; ?>" 
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                                Eliminar
+                                            </a>
+
+                                        <?php } else { ?>
+
+                                            <span class="badge bg-secondary">
+                                                Usuario actual
+                                            </span>
+
+                                        <?php } ?>
+
                                     </td>
+
                                 </tr>
 
                             <?php } ?>
