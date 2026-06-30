@@ -62,7 +62,14 @@ include "../includes/header.php";
 
                 <div class="card-body">
 
-                    <table class="table table-hover table-bordered align-middle">
+                    <!-- ===========================================
+     SPRINT 7 - MODIFICACIÓN 04
+     Agregamos la clase "tabla-dinamica"
+     para que DataTables active buscador,
+     paginación, ordenamiento y exportación.
+=========================================== -->
+
+<table class="table table-hover table-bordered align-middle tabla-dinamica">
 
                         <thead class="table-dark">
 
