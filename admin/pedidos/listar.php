@@ -74,6 +74,7 @@ include "../includes/header.php";
                                 <th>Cantidad</th>
                                 <th>Estado</th>
                                 <th>Fecha</th>
+                                <th>Acciones</th>
                             </tr>
 
                         </thead>
@@ -104,37 +105,84 @@ include "../includes/header.php";
                                         <?php echo $pedido["cantidad"]; ?>
                                     </td>
 
-                                    <td>
-                                        <?php if ($pedido["estado"] == "Pendiente") { ?>
+                                  <td>
 
-                                            <span class="badge bg-warning text-dark">
-                                                Pendiente
-                                            </span>
+    <!-- ===========================================
+         SPRINT 6 - MODIFICACIÓN 03
+         REEMPLAZA EL BLOQUE ANTERIOR DE ESTADO.
 
-                                        <?php } elseif ($pedido["estado"] == "En proceso") { ?>
+         ANTES:
+         Solo mostrábamos el estado con una etiqueta.
 
-                                            <span class="badge bg-primary">
-                                                En proceso
-                                            </span>
+         AHORA:
+         Mostramos un selector para cambiar el estado
+         directamente desde el listado de pedidos.
+    ============================================ -->
 
-                                        <?php } elseif ($pedido["estado"] == "Entregado") { ?>
+    <form action="cambiar_estado.php" method="POST">
 
-                                            <span class="badge bg-success">
-                                                Entregado
-                                            </span>
+        <!-- Campo oculto: guarda el ID del pedido -->
+        <input
+            type="hidden"
+            name="id"
+            value="<?php echo $pedido["id"]; ?>">
 
-                                        <?php } else { ?>
+        <!-- Selector del nuevo estado del pedido -->
+        <select
+            name="estado"
+            class="form-select form-select-sm mb-2">
 
-                                            <span class="badge bg-danger">
-                                                Cancelado
-                                            </span>
+            <option value="Pendiente"
+                <?php if ($pedido["estado"] == "Pendiente") echo "selected"; ?>>
+                Pendiente
+            </option>
 
-                                        <?php } ?>
-                                    </td>
+            <option value="En proceso"
+                <?php if ($pedido["estado"] == "En proceso") echo "selected"; ?>>
+                En proceso
+            </option>
+
+            <option value="Entregado"
+                <?php if ($pedido["estado"] == "Entregado") echo "selected"; ?>>
+                Entregado
+            </option>
+
+            <option value="Cancelado"
+                <?php if ($pedido["estado"] == "Cancelado") echo "selected"; ?>>
+                Cancelado
+            </option>
+
+        </select>
+
+        <!-- Botón que envía el cambio de estado -->
+        <button
+            class="btn btn-danger btn-sm w-100"
+            type="submit">
+
+            Actualizar
+
+        </button>
+
+    </form>
+
+</td>
 
                                     <td>
                                         <?php echo $pedido["fecha_pedido"]; ?>
                                     </td>
+                                    <td>
+
+    <!-- ===========================================
+         SPRINT 6 - MODIFICACIÓN 06
+         Botón para ver el detalle completo
+         del pedido seleccionado.
+    ============================================ -->
+
+    <a href="ver.php?id=<?php echo $pedido["id"]; ?>" class="btn btn-info btn-sm">
+        Ver detalle
+    </a>
+
+</td>
 
                                 </tr>
 
